@@ -4,7 +4,7 @@
 #
 Name     : perl-Import-Into
 Version  : 1.002005
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/H/HA/HAARG/Import-Into-1.002005.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/H/HA/HAARG/Import-Into-1.002005.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libimport-into-perl/libimport-into-perl_1.002005-1.debian.tar.xz
@@ -12,6 +12,7 @@ Summary  : 'Import packages into other packages'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Import-Into-license = %{version}-%{release}
+Requires: perl-Import-Into-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(Module::Runtime)
 
@@ -25,6 +26,7 @@ package My::MultiExporter;
 Summary: dev components for the perl-Import-Into package.
 Group: Development
 Provides: perl-Import-Into-devel = %{version}-%{release}
+Requires: perl-Import-Into = %{version}-%{release}
 
 %description dev
 dev components for the perl-Import-Into package.
@@ -38,18 +40,28 @@ Group: Default
 license components for the perl-Import-Into package.
 
 
+%package perl
+Summary: perl components for the perl-Import-Into package.
+Group: Default
+Requires: perl-Import-Into = %{version}-%{release}
+
+%description perl
+perl components for the perl-Import-Into package.
+
+
 %prep
 %setup -q -n Import-Into-1.002005
-cd ..
-%setup -q -T -D -n Import-Into-1.002005 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libimport-into-perl_1.002005-1.debian.tar.xz
+cd %{_builddir}/Import-Into-1.002005
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Import-Into-1.002005/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Import-Into-1.002005/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -59,7 +71,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -68,7 +80,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Import-Into
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Import-Into/deblicense_copyright
+cp %{_builddir}/Import-Into-1.002005/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Import-Into/570a919f6483c1553433b830c8fcdf971b792ff5
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -81,7 +93,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Import/Into.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -89,4 +100,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Import-Into/deblicense_copyright
+/usr/share/package-licenses/perl-Import-Into/570a919f6483c1553433b830c8fcdf971b792ff5
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Import/Into.pm
