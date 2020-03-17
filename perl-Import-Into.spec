@@ -4,7 +4,7 @@
 #
 Name     : perl-Import-Into
 Version  : 1.002005
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/H/HA/HAARG/Import-Into-1.002005.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/H/HA/HAARG/Import-Into-1.002005.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libimport-into-perl/libimport-into-perl_1.002005-1.debian.tar.xz
@@ -80,7 +80,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Import-Into
-cp %{_builddir}/Import-Into-1.002005/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Import-Into/570a919f6483c1553433b830c8fcdf971b792ff5
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-Import-Into/570a919f6483c1553433b830c8fcdf971b792ff5
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -104,4 +104,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/Import/Into.pm
+/usr/lib/perl5/vendor_perl/5.30.2/Import/Into.pm
