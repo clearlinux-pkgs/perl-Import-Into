@@ -5,7 +5,7 @@
 #
 Name     : perl-Import-Into
 Version  : 1.002005
-Release  : 29
+Release  : 30
 URL      : https://cpan.metacpan.org/authors/id/H/HA/HAARG/Import-Into-1.002005.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/H/HA/HAARG/Import-Into-1.002005.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libimport-into-perl/libimport-into-perl_1.002005-1.debian.tar.xz
